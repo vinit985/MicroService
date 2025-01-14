@@ -9,6 +9,7 @@ import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @EnableDiscoveryClient
+//Enables figen client
 @EnableFeignClients
 public class UserServiceApplication {
 

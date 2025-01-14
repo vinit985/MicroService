@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User getUserById(String id) {
 		// TODO Auto-generated method stub
-//		Helps to get userId from database
+//		Helps to get user from database thorugh userId 
 		User user = this.userRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("User not found with given UserId"));
 //		TO inculde rating in  userService we need to call Rating service
 //		We can use this url to call ratings service 
@@ -62,17 +62,13 @@ public class UserServiceImpl implements UserService {
         List<Rating> ratingList = Arrays.stream(ratingArray).toList();
         List<Rating> list = ratingList.stream().map(rating->{
 //        	API to call hotelservice
-//        	http://localhost:8082/hotels/c667609c-7a6a-4856-ac3c-accc
-//        	ResponseEntity<Hotel> forEntity = restTemplate.getForEntity("http://localhost:8082/hotels/"+rating.getHotelId(), Hotel.class);
-        	Hotel hotel=hotelService.getHotel(rating.getHotelId());
-//        	Hotel hotel = forEntity.getBody();
-//        	Set hotel to rating service
-        	rating.setHotel(hotel);
-//        	retur
-        	return rating;
+//                http://localhost:8082/hotels/c667609c-7a6a-4856-ac3c-accc28f1ad48
+//         ResponseEntity<Hotel> forEntity = restTemplate.getForEntity("http://HOTELSERVICE/hotels/"+rating.getHotelId(),Hotel.class);
+        	Hotel forEntity = hotelService.getHotel(rating.getHotelId());
+         rating.setHotel(forEntity); 	   
+         return rating;
         	
         }).collect(Collectors.toList());
-        
         user.setRatings(list);
         logger.info("{}",ratingList);
 	    return user;
